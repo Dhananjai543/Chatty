@@ -61,6 +61,16 @@ export function AuthProvider({ children }) {
     return () => clearInterval(checkTokenExpiry)
   }, [isAuthenticated])
 
+  const formatValidationErrors = (errorData) => {
+    // If there are field-level validation errors in data, format them
+    if (errorData?.data && typeof errorData.data === 'object') {
+      return Object.entries(errorData.data)
+        .map(([field, message]) => `${field}: ${message}`)
+        .join(', ')
+    }
+    return errorData?.message || null
+  }
+
   const login = useCallback(async (username, password) => {
     try {
       const response = await authService.login(username, password)
@@ -76,7 +86,8 @@ export function AuthProvider({ children }) {
       
       return { success: true }
     } catch (error) {
-      const message = error.response?.data?.message || 'Login failed'
+      const errorData = error.response?.data
+      const message = formatValidationErrors(errorData) || 'Login failed'
       toast.error(message)
       return { success: false, error: message }
     }
@@ -97,7 +108,8 @@ export function AuthProvider({ children }) {
       
       return { success: true }
     } catch (error) {
-      const message = error.response?.data?.message || 'Signup failed'
+      const errorData = error.response?.data
+      const message = formatValidationErrors(errorData) || 'Signup failed'
       toast.error(message)
       return { success: false, error: message }
     }

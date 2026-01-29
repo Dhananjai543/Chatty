@@ -16,13 +16,6 @@ spring:
       username: ${REDIS_USERNAME:}
       password: ${REDIS_PASSWORD:}
       timeout: 2000ms
-      ssl:
-        enabled: ${REDIS_SSL_ENABLED:true}
-      lettuce:
-        pool:
-          max-active: 8
-          max-idle: 8
-          min-idle: 0
 
   kafka:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:}
@@ -37,9 +30,9 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
     ssl:
-      trust-store-location: file:${KAFKA_TRUSTSTORE_LOCATION:./certs/client.truststore.jks}
+      trust-store-location: file:${KAFKA_TRUSTSTORE_LOCATION:}
       trust-store-password: ${KAFKA_TRUSTSTORE_PASSWORD:}
-      key-store-location: file:${KAFKA_KEYSTORE_LOCATION:./certs/client.keystore.jks}
+      key-store-location: file:${KAFKA_KEYSTORE_LOCATION:}
       key-store-password: ${KAFKA_KEYSTORE_PASSWORD:}
       key-password: ${KAFKA_KEY_PASSWORD:}
     properties:
@@ -79,3 +72,5 @@ logging:
     com.chatty: DEBUG
     org.springframework.web.socket: DEBUG
     org.springframework.messaging: DEBUG
+    org.springframework.data.redis: DEBUG
+    redis.clients.jedis: DEBUG

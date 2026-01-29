@@ -1,6 +1,7 @@
 import { Client } from '@stomp/stompjs'
 
-const WS_URL = import.meta.env.VITE_WS_URL || 'http://localhost:8080/ws'
+// Use relative URL in development (goes through Vite proxy), absolute URL in production
+const WS_URL = import.meta.env.VITE_WS_URL || (import.meta.env.DEV ? '/ws' : 'http://localhost:8080/ws')
 
 // Dynamic import SockJS to avoid SSR issues
 let SockJS = null
