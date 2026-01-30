@@ -12,10 +12,15 @@ function ChatWindow() {
 
   // Scroll to bottom when new messages arrive (only scroll the messages container, not the page)
   useEffect(() => {
-    if (messagesContainerRef.current) {
-      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight
+    if (messagesContainerRef.current && !loading && messages.length > 0) {
+      // Use setTimeout to ensure DOM has updated before scrolling
+      setTimeout(() => {
+        if (messagesContainerRef.current) {
+          messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight
+        }
+      }, 0)
     }
-  }, [messages, currentRoom, currentPrivateChat])
+  }, [messages, currentRoom, currentPrivateChat, loading])
 
   return (
     <div className="flex-1 flex flex-col bg-white min-h-0">

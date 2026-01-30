@@ -1,7 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { useAuth } from './hooks/useAuth'
-import Login from './components/Auth/Login'
-import Signup from './components/Auth/Signup'
+import AuthPage from './components/Auth/AuthPage'
 import ChatLayout from './components/Chat/ChatLayout'
 import ProtectedRoute from './components/Common/ProtectedRoute'
 
@@ -20,11 +19,11 @@ function App() {
     <Routes>
       <Route 
         path="/login" 
-        element={isAuthenticated ? <Navigate to="/chat" replace /> : <Login />} 
+        element={isAuthenticated ? <Navigate to="/chat" replace /> : <AuthPage />} 
       />
       <Route 
         path="/signup" 
-        element={isAuthenticated ? <Navigate to="/chat" replace /> : <Signup />} 
+        element={isAuthenticated ? <Navigate to="/chat" replace /> : <AuthPage />} 
       />
       <Route 
         path="/chat/*" 
