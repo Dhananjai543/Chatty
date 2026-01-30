@@ -20,9 +20,8 @@ export function useWebSocket() {
     if (destination.startsWith('/topic/public.')) {
       const roomId = destination.replace('/topic/public.', '')
       return websocketService.subscribeToPublicRoom(roomId, callback)
-    } else if (destination.startsWith('/user/')) {
-      const userId = destination.split('/')[2]
-      return websocketService.subscribeToPrivateMessages(userId, callback)
+    } else if (destination === '/user/queue/private' || destination.startsWith('/user/')) {
+      return websocketService.subscribeToPrivateMessages(callback)
     } else if (destination === '/topic/notifications') {
       return websocketService.subscribeToNotifications(callback)
     }

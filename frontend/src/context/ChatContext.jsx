@@ -19,6 +19,7 @@ export function ChatProvider({ children }) {
   const [unreadCount, setUnreadCount] = useState(0)
   
   const subscriptionsRef = useRef(new Set())
+  const currentPrivateChatRef = useRef(null)
 
   // Connect WebSocket when authenticated
   useEffect(() => {
@@ -49,6 +50,11 @@ export function ChatProvider({ children }) {
     }
   }, [isAuthenticated, user])
 
+  // Keep ref in sync with state to avoid stale closures in callbacks
+  useEffect(() => {
+    currentPrivateChatRef.current = currentPrivateChat
+  }, [currentPrivateChat])
+
   const setupSubscriptions = useCallback(() => {
     if (!user) return
 
@@ -68,17 +74,44 @@ export function ChatProvider({ children }) {
       }
     })
 
-    // Subscribe to private messages for current user
-    websocketService.subscribeToPrivateMessages(user.id, (message) => {
-      if (currentPrivateChat && 
-          (message.senderId === currentPrivateChat.id || message.recipientId === currentPrivateChat.id)) {
-        setMessages((prev) => [...prev, message])
-      } else if (message.senderId !== user.id) {
+    // Subscribe to private messages - Spring routes based on authenticated Principal
+    websocketService.subscribeToPrivateMessages((message) => {
+      console.log('Private message received:', message)
+      console.log('Current active chat ref:', currentPrivateChatRef.current)
+      
+      // Use ref to get current value (avoids stale closure)
+      const activeChat = currentPrivateChatRef.current
+      
+      if (activeChat) {
+        // Check if this message belongs to the current private chat
+        // Either we sent it (to activeChat) or received it (from activeChat)
+        const isForCurrentChat = 
+          (message.senderId === activeChat.id) ||      // Message from the person we're chatting with
+          (message.recipientId === activeChat.id) ||   // Message to the person we're chatting with
+          (message.senderUsername === activeChat.username) ||
+          (message.recipientUsername === activeChat.username)
+        
+        console.log('Is for current chat:', isForCurrentChat, 'activeChat.id:', activeChat.id, 'activeChat.username:', activeChat.username)
+        
+        if (isForCurrentChat) {
+          setMessages((prev) => {
+            // Avoid duplicates by checking if message already exists
+            if (prev.some(m => m.id === message.id)) {
+              return prev
+            }
+            return [...prev, message]
+          })
+          return
+        }
+      }
+      
+      // Message not for current chat - show notification if from someone else
+      if (message.senderId !== user.id) {
         toast(`New message from ${message.senderDisplayName || message.senderUsername}`)
         setUnreadCount((prev) => prev + 1)
       }
     })
-  }, [user, currentPrivateChat])
+  }, [user])
 
   const loadRooms = async () => {
     try {
@@ -113,6 +146,8 @@ export function ChatProvider({ children }) {
 
   const selectRoom = useCallback(async (room) => {
     setCurrentPrivateChat(null)
+    // Clear private chat ref immediately
+    currentPrivateChatRef.current = null
     setCurrentRoom(room)
     setLoading(true)
     setMessages([])
@@ -141,6 +176,9 @@ export function ChatProvider({ children }) {
   const selectPrivateChat = useCallback(async (targetUser) => {
     setCurrentRoom(null)
     setCurrentPrivateChat(targetUser)
+    // Update ref immediately (don't wait for useEffect)
+    currentPrivateChatRef.current = targetUser
+    console.log('Selected private chat:', targetUser)
     setLoading(true)
     setMessages([])
 

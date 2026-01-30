@@ -4,19 +4,21 @@ import MessageList from './MessageList'
 import MessageInput from './MessageInput'
 
 function ChatWindow() {
-  const { currentRoom, currentPrivateChat, loading } = useChat()
-  const messagesEndRef = useRef(null)
+  const { currentRoom, currentPrivateChat, messages, loading } = useChat()
+  const messagesContainerRef = useRef(null)
 
   const chatName = currentRoom?.name || currentPrivateChat?.displayName || currentPrivateChat?.username
   const chatDescription = currentRoom?.description || (currentPrivateChat && 'Private conversation')
 
+  // Scroll to bottom when new messages arrive (only scroll the messages container, not the page)
   useEffect(() => {
-    // Scroll to bottom when component mounts or chat changes
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [currentRoom, currentPrivateChat])
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight
+    }
+  }, [messages, currentRoom, currentPrivateChat])
 
   return (
-    <div className="flex-1 flex flex-col bg-white">
+    <div className="flex-1 flex flex-col bg-white min-h-0">
       {/* Chat Header */}
       <div className="px-6 py-4 border-b border-gray-200 bg-white">
         <div className="flex items-center justify-between">
@@ -43,16 +45,13 @@ function ChatWindow() {
       </div>
 
       {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto px-6 py-4 bg-gray-50">
+      <div ref={messagesContainerRef} className="flex-1 overflow-y-auto px-6 py-4 bg-gray-50 min-h-0">
         {loading ? (
           <div className="flex items-center justify-center h-full">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
           </div>
         ) : (
-          <>
-            <MessageList />
-            <div ref={messagesEndRef} />
-          </>
+          <MessageList />
         )}
       </div>
 

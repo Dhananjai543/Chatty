@@ -60,18 +60,18 @@ public class KafkaMessageService {
             containerFactory = "kafkaListenerContainerFactory"
     )
     public void consumePrivateMessage(MessageDTO message) {
-        log.debug("Consumed private message from Kafka for user: {}", message.getRecipientId());
+        log.debug("Consumed private message from Kafka for user: {}", message.getRecipientUsername());
         
-        // Send to specific user's private queue
+        // Send to specific user's private queue (use username to match Principal)
         messagingTemplate.convertAndSendToUser(
-                message.getRecipientId(),
+                message.getRecipientUsername(),
                 "/queue/private",
                 message
         );
         
         // Also send to sender so they see their own message
         messagingTemplate.convertAndSendToUser(
-                message.getSenderId(),
+                message.getSenderUsername(),
                 "/queue/private",
                 message
         );

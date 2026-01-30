@@ -110,19 +110,23 @@ class WebSocketService {
     return subscription
   }
 
-  subscribeToPrivateMessages(userId, callback) {
+  subscribeToPrivateMessages(callback) {
     if (!this.client?.connected) {
       console.error('WebSocket not connected')
       return null
     }
 
-    const destination = `/user/${userId}/queue/private`
+    // Subscribe to /user/queue/private - Spring routes based on authenticated Principal
+    // Do NOT include username in path - Spring handles this automatically
+    const destination = '/user/queue/private'
     
     if (this.subscriptions.has(destination)) {
       return this.subscriptions.get(destination)
     }
 
+    console.log('Subscribing to private messages at:', destination)
     const subscription = this.client.subscribe(destination, (message) => {
+      console.log('Received private message:', message.body)
       const body = JSON.parse(message.body)
       callback(body)
     })
