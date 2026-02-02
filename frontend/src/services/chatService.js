@@ -36,6 +36,11 @@ export const chatService = {
     return response.data
   },
 
+  async joinRoomByCode(secretCode) {
+    const response = await api.post('/chat/rooms/join-by-code', { secretCode })
+    return response.data
+  },
+
   // Messages
   async getRoomMessages(roomId, page = 0, size = 50) {
     const response = await api.get(`/chat/rooms/${roomId}/messages`, {

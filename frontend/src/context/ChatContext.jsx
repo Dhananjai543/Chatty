@@ -223,11 +223,25 @@ export function ChatProvider({ children }) {
 
   const joinRoom = useCallback(async (roomId) => {
     try {
-      await chatService.joinRoom(roomId)
+      const response = await chatService.joinRoom(roomId)
       await loadRooms()
       toast.success('Joined room successfully!')
+      return response.data
     } catch (error) {
       toast.error('Failed to join room')
+      throw error
+    }
+  }, [])
+
+  const joinRoomByCode = useCallback(async (secretCode) => {
+    try {
+      const response = await chatService.joinRoomByCode(secretCode)
+      await loadRooms()
+      toast.success('Joined room successfully!')
+      return response.data
+    } catch (error) {
+      const message = error.response?.data?.message || 'Invalid secret code'
+      toast.error(message)
       throw error
     }
   }, [])
@@ -247,6 +261,7 @@ export function ChatProvider({ children }) {
     sendMessage,
     createRoom,
     joinRoom,
+    joinRoomByCode,
     loadRooms,
     loadUsers,
   }

@@ -28,4 +28,7 @@ public interface ChatRoomRepository extends MongoRepository<ChatRoom, String> {
 
     // Find rooms created by a specific user
     List<ChatRoom> findByCreatedBy(String userId);
+
+    // Find room by secret code
+    Optional<ChatRoom> findBySecretCode(String secretCode);
 }

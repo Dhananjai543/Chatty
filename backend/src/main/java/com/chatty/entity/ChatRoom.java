@@ -35,6 +35,10 @@ public class ChatRoom {
     @Builder.Default
     private boolean isPublic = true;
 
+    // Secret code for joining private rooms (auto-generated)
+    @Indexed(unique = true, sparse = true)
+    private String secretCode;
+
     private String createdBy;
 
     @CreatedDate

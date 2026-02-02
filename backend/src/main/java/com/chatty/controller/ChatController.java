@@ -2,6 +2,7 @@ package com.chatty.controller;
 
 import com.chatty.dto.ApiResponse;
 import com.chatty.dto.ChatRoomDTO;
+import com.chatty.dto.JoinByCodeRequest;
 import com.chatty.dto.MessageDTO;
 import com.chatty.entity.User;
 import com.chatty.service.ChatRoomService;
@@ -82,6 +83,16 @@ public class ChatController {
         User user = userService.getUserEntityByUsername(userDetails.getUsername());
         ChatRoomDTO room = chatRoomService.leaveRoom(roomId, user.getId());
         return ResponseEntity.ok(ApiResponse.success("Left room successfully", room));
+    }
+
+    @PostMapping("/rooms/join-by-code")
+    public ResponseEntity<ApiResponse<ChatRoomDTO>> joinRoomByCode(
+            @Valid @RequestBody JoinByCodeRequest request,
+            @AuthenticationPrincipal UserDetails userDetails) {
+        log.info("Join room by code request from user: {}", userDetails.getUsername());
+        User user = userService.getUserEntityByUsername(userDetails.getUsername());
+        ChatRoomDTO room = chatRoomService.joinRoomByCode(request.getSecretCode(), user.getId());
+        return ResponseEntity.ok(ApiResponse.success("Joined room successfully", room));
     }
 
     // Message Endpoints
