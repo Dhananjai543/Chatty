@@ -2,6 +2,22 @@ import axios from 'axios'
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080'
 
+/**
+ * Resolves a profile picture URL to the full backend URL.
+ * If the URL is relative (starts with /), it prepends the API base URL.
+ * If the URL is already absolute or null/undefined, it returns as-is.
+ */
+export const resolveAvatarUrl = (url) => {
+  if (!url) return null
+  if (url.startsWith('http://') || url.startsWith('https://')) {
+    return url
+  }
+  if (url.startsWith('/')) {
+    return `${API_BASE_URL}${url}`
+  }
+  return url
+}
+
 const api = axios.create({
   baseURL: `${API_BASE_URL}/api`,
   headers: {

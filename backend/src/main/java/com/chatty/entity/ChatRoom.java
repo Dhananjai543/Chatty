@@ -41,6 +41,8 @@ public class ChatRoom {
 
     private String createdBy;
 
+    private String profilePicture;
+
     @CreatedDate
     private LocalDateTime createdAt;
 

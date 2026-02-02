@@ -21,6 +21,7 @@ public class MessageDTO implements Serializable {
     private String senderId;
     private String senderUsername;
     private String senderDisplayName;
+    private String senderProfilePicture;
     private String recipientId;
     private String recipientUsername;
     private String chatRoomId;
@@ -36,6 +37,7 @@ public class MessageDTO implements Serializable {
                 .senderId(message.getSenderId())
                 .senderUsername(message.getSenderUsername())
                 .senderDisplayName(message.getSenderDisplayName())
+                .senderProfilePicture(message.getSenderProfilePicture())
                 .recipientId(message.getRecipientId())
                 .recipientUsername(message.getRecipientUsername())
                 .chatRoomId(message.getChatRoomId())
@@ -53,6 +55,7 @@ public class MessageDTO implements Serializable {
                 .senderId(this.senderId)
                 .senderUsername(this.senderUsername)
                 .senderDisplayName(this.senderDisplayName)
+                .senderProfilePicture(this.senderProfilePicture)
                 .recipientId(this.recipientId)
                 .recipientUsername(this.recipientUsername)
                 .chatRoomId(this.chatRoomId)

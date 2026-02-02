@@ -35,6 +35,7 @@ public class ChatRoomDTO {
     
     private String secretCode;  // Only included for room creator/members
     private String createdBy;
+    private String profilePicture;
     private LocalDateTime createdAt;
     private LocalDateTime lastMessageAt;
 
@@ -48,6 +49,7 @@ public class ChatRoomDTO {
                 .isPublic(chatRoom.isPublic())
                 .secretCode(chatRoom.getSecretCode())
                 .createdBy(chatRoom.getCreatedBy())
+                .profilePicture(chatRoom.getProfilePicture())
                 .createdAt(chatRoom.getCreatedAt())
                 .lastMessageAt(chatRoom.getLastMessageAt())
                 .build();
@@ -64,6 +66,7 @@ public class ChatRoomDTO {
                 .isPublic(chatRoom.isPublic())
                 .secretCode(null)
                 .createdBy(chatRoom.getCreatedBy())
+                .profilePicture(chatRoom.getProfilePicture())
                 .createdAt(chatRoom.getCreatedAt())
                 .lastMessageAt(chatRoom.getLastMessageAt())
                 .build();
@@ -82,6 +85,7 @@ public class ChatRoomDTO {
                 .isPublic(chatRoom.isPublic())
                 .secretCode(canSeeSecretCode ? chatRoom.getSecretCode() : null)
                 .createdBy(chatRoom.getCreatedBy())
+                .profilePicture(chatRoom.getProfilePicture())
                 .createdAt(chatRoom.getCreatedAt())
                 .lastMessageAt(chatRoom.getLastMessageAt())
                 .build();
@@ -95,6 +99,7 @@ public class ChatRoomDTO {
                 .memberIds(this.memberIds)
                 .isPublic(this.isPublic)
                 .secretCode(this.secretCode)
+                .profilePicture(this.profilePicture)
                 .build();
     }
 }

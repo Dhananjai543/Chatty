@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useChat } from '../../hooks/useChat'
 import { chatService } from '../../services/chatService'
+import { resolveAvatarUrl } from '../../services/api'
 
 function BrowseRoomsModal({ onClose }) {
   const [publicRooms, setPublicRooms] = useState([])
@@ -94,9 +95,17 @@ function BrowseRoomsModal({ onClose }) {
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex items-start space-x-3 flex-1 min-w-0">
-                      <div className="w-10 h-10 rounded-lg bg-primary-100 flex items-center justify-center text-primary-600 font-medium flex-shrink-0">
-                        #
-                      </div>
+                      {room.profilePicture ? (
+                        <img
+                          src={resolveAvatarUrl(room.profilePicture)}
+                          alt={room.name}
+                          className="w-10 h-10 rounded-lg object-cover flex-shrink-0"
+                        />
+                      ) : (
+                        <div className="w-10 h-10 rounded-lg bg-primary-100 flex items-center justify-center text-primary-600 font-medium flex-shrink-0">
+                          #
+                        </div>
+                      )}
                       <div className="flex-1 min-w-0">
                         <h3 className="font-medium text-gray-900 truncate">{room.name}</h3>
                         {room.description && (

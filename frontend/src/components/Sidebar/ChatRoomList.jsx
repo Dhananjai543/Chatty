@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useChat } from '../../hooks/useChat'
+import { resolveAvatarUrl } from '../../services/api'
 import BrowseRoomsModal from '../Chat/BrowseRoomsModal'
 import JoinPrivateRoomModal from '../Chat/JoinPrivateRoomModal'
 
@@ -71,11 +72,19 @@ function ChatRoomList({ onCreateRoom }) {
                     currentRoom?.id === room.id ? 'bg-primary-50' : ''
                   }`}
                 >
-                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center text-white font-medium ${
-                    currentRoom?.id === room.id ? 'bg-primary-600' : 'bg-gray-400'
-                  }`}>
-                    #
-                  </div>
+                  {room.profilePicture ? (
+                    <img
+                      src={resolveAvatarUrl(room.profilePicture)}
+                      alt={room.name}
+                      className="w-10 h-10 rounded-lg object-cover"
+                    />
+                  ) : (
+                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center text-white font-medium ${
+                      currentRoom?.id === room.id ? 'bg-primary-600' : 'bg-gray-400'
+                    }`}>
+                      #
+                    </div>
+                  )}
                   <div className="flex-1 text-left">
                     <p className={`font-medium ${
                       currentRoom?.id === room.id ? 'text-primary-600' : 'text-gray-900'

@@ -37,6 +37,8 @@ public class Message implements Serializable {
 
     private String senderDisplayName;
 
+    private String senderProfilePicture;
+
     @Indexed
     private String recipientId;
 

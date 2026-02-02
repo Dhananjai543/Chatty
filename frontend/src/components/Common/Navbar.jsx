@@ -1,5 +1,6 @@
 import { useAuth } from '../../hooks/useAuth'
 import { useChat } from '../../hooks/useChat'
+import { resolveAvatarUrl } from '../../services/api'
 
 function Navbar() {
   const { user, logout } = useAuth()
@@ -30,9 +31,17 @@ function Navbar() {
           )}
           
           <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center text-white font-medium">
-              {user?.displayName?.charAt(0) || user?.username?.charAt(0) || 'U'}
-            </div>
+            {user?.profilePicture ? (
+              <img
+                src={resolveAvatarUrl(user.profilePicture)}
+                alt={user.displayName || user.username}
+                className="w-8 h-8 rounded-full object-cover"
+              />
+            ) : (
+              <div className="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center text-white font-medium">
+                {user?.displayName?.charAt(0) || user?.username?.charAt(0) || 'U'}
+              </div>
+            )}
             <span className="text-sm font-medium text-gray-700">
               {user?.displayName || user?.username}
             </span>

@@ -54,6 +54,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/ws/**").permitAll()
                 .requestMatchers("/health").permitAll()
+                .requestMatchers("/avatars/**").permitAll()
                 // All other endpoints require authentication
                 .anyRequest().authenticated())
             .authenticationProvider(authenticationProvider())

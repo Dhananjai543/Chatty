@@ -33,6 +33,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManager authenticationManager;
+    private final AvatarService avatarService;
 
     @Transactional
     public AuthResponse signup(SignupRequest request) {
@@ -54,6 +55,7 @@ public class AuthService {
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .displayName(request.getDisplayName() != null ? request.getDisplayName() : request.getUsername())
+                .profilePicture(avatarService.getRandomUserAvatar())
                 .status(User.UserStatus.OFFLINE)
                 .createdAt(LocalDateTime.now())
                 .build();

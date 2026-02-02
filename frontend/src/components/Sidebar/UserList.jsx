@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useChat } from '../../hooks/useChat'
+import { resolveAvatarUrl } from '../../services/api'
 
 function UserList() {
   const { users, onlineUsers, currentPrivateChat, selectPrivateChat } = useChat()
@@ -46,7 +47,6 @@ function UserList() {
         </div>
       </div>
 
-      {/* User List */}
       <div className="flex-1 overflow-y-auto">
         {sortedUsers.length === 0 ? (
           <div className="px-4 py-8 text-center text-gray-500">
@@ -70,11 +70,19 @@ function UserList() {
                   >
                     {/* Avatar with online indicator */}
                     <div className="relative">
-                      <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium ${
-                        isSelected ? 'bg-primary-600' : 'bg-gray-400'
-                      }`}>
-                        {user.displayName?.charAt(0) || user.username.charAt(0)}
-                      </div>
+                      {user.profilePicture ? (
+                        <img
+                          src={resolveAvatarUrl(user.profilePicture)}
+                          alt={user.displayName || user.username}
+                          className="w-10 h-10 rounded-full object-cover"
+                        />
+                      ) : (
+                        <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium ${
+                          isSelected ? 'bg-primary-600' : 'bg-gray-400'
+                        }`}>
+                          {user.displayName?.charAt(0) || user.username.charAt(0)}
+                        </div>
+                      )}
                       <span
                         className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white ${
                           online ? 'bg-green-500' : 'bg-gray-300'

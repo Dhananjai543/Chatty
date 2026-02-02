@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 public class ChatRoomService {
 
     private final ChatRoomRepository chatRoomRepository;
+    private final AvatarService avatarService;
     
     private static final String SECRET_CODE_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
     private static final int SECRET_CODE_LENGTH = 8;
@@ -122,6 +123,7 @@ public class ChatRoomService {
                 .isPublic(request.isPublic())
                 .secretCode(secretCode)
                 .createdBy(creatorId)
+                .profilePicture(avatarService.getRandomGroupAvatar())
                 .createdAt(LocalDateTime.now())
                 .build();
 

@@ -1,5 +1,6 @@
 import { useAuth } from '../../hooks/useAuth'
 import { useChat } from '../../hooks/useChat'
+import { resolveAvatarUrl } from '../../services/api'
 
 function MessageList() {
   const { user } = useAuth()
@@ -85,9 +86,17 @@ function MessageList() {
                   }`}>
                     {/* Avatar */}
                     {!isOwnMessage && showAvatar && (
-                      <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center text-gray-600 text-sm font-medium flex-shrink-0">
-                        {message.senderDisplayName?.charAt(0) || message.senderUsername?.charAt(0) || '?'}
-                      </div>
+                      message.senderProfilePicture ? (
+                        <img
+                          src={resolveAvatarUrl(message.senderProfilePicture)}
+                          alt={message.senderDisplayName || message.senderUsername}
+                          className="w-8 h-8 rounded-full object-cover flex-shrink-0"
+                        />
+                      ) : (
+                        <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center text-gray-600 text-sm font-medium flex-shrink-0">
+                          {message.senderDisplayName?.charAt(0) || message.senderUsername?.charAt(0) || '?'}
+                        </div>
+                      )
                     )}
                     {!isOwnMessage && !showAvatar && (
                       <div className="w-8 flex-shrink-0"></div>
