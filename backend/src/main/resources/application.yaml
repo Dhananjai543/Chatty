@@ -7,18 +7,18 @@ spring:
 
   data:
     mongodb:
-      uri: ${MONGO_URI:}
+      uri: ${MONGO_URI:mongodb+srv://chatty:chatty@chat.dlh2fbz.mongodb.net/chatty?retryWrites=true&w=majority}
       auto-index-creation: true
 
     redis:
-      host: ${REDIS_HOST:}
-      port: ${REDIS_PORT:}
-      username: ${REDIS_USERNAME:}
-      password: ${REDIS_PASSWORD:}
+      host: ${REDIS_HOST:redis-12969.crce217.ap-south-1-1.ec2.cloud.redislabs.com}
+      port: ${REDIS_PORT:12969}
+      username: ${REDIS_USERNAME:default}
+      password: ${REDIS_PASSWORD:XgRjQzU3DgkEA0KLDqtX0Wxrk6GfCwFD}
       timeout: 2000ms
 
   kafka:
-    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:}
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:chatkafka-ixunbo-c34a.g.aivencloud.com:12360}
     consumer:
       group-id: chatty-group
       auto-offset-reset: earliest
@@ -30,20 +30,21 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
     ssl:
-      trust-store-location: file:${KAFKA_TRUSTSTORE_LOCATION:}
-      trust-store-password: ${KAFKA_TRUSTSTORE_PASSWORD:}
-      key-store-location: file:${KAFKA_KEYSTORE_LOCATION:}
-      key-store-password: ${KAFKA_KEYSTORE_PASSWORD:}
-      key-password: ${KAFKA_KEY_PASSWORD:}
+      # SSL/TLS Configuration for Aiven Kafka (Client Certificate)
+      trust-store-location: file:${KAFKA_TRUSTSTORE_LOCATION:./certs/client.truststore.jks}
+      trust-store-password: ${KAFKA_TRUSTSTORE_PASSWORD:changeit}
+      key-store-location: file:${KAFKA_KEYSTORE_LOCATION:./certs/client.keystore.jks}
+      key-store-password: ${KAFKA_KEYSTORE_PASSWORD:changeit}
+      key-password: ${KAFKA_KEY_PASSWORD:changeit}
     properties:
       security.protocol: SSL
       ssl.endpoint.identification.algorithm: ""
 
 # JWT Configuration
 jwt:
-  secret: ${JWT_SECRET:}
-  access-token-expiry: ${JWT_ACCESS_EXPIRY:900000}
-  refresh-token-expiry: ${JWT_REFRESH_EXPIRY:604800000}
+  secret: ${JWT_SECRET:mySecretKeyForJWTTokenGenerationThatIsAtLeast256BitsLongForHS256Algorithm}
+  access-token-expiry: ${JWT_ACCESS_EXPIRY:900000}      # 15 minutes in milliseconds
+  refresh-token-expiry: ${JWT_REFRESH_EXPIRY:604800000} # 7 days in milliseconds
 
 # WebSocket Configuration
 websocket:
@@ -61,9 +62,9 @@ kafka:
 # Redis Cache Configuration
 redis:
   cache:
-    message-ttl: 3600
-    session-ttl: 86400
-    max-messages: 50
+    message-ttl: 3600    # 1 hour in seconds
+    session-ttl: 86400   # 24 hours in seconds
+    max-messages: 50     # Max messages to cache per room
 
 # Logging Configuration
 logging:
