@@ -6,9 +6,8 @@ function Sidebar({ onCreateRoom }) {
   const [activeTab, setActiveTab] = useState('rooms')
 
   return (
-    <aside className="w-80 bg-white border-r border-gray-200 flex flex-col">
-      {/* Tabs */}
-      <div className="flex border-b border-gray-200">
+    <aside className="w-80 bg-primary-50 border-r border-primary-100 flex flex-col">
+      <div className="flex border-b border-primary-100 bg-white">
         <button
           onClick={() => setActiveTab('rooms')}
           className={`flex-1 py-3 text-sm font-medium transition-colors ${

@@ -11,11 +11,9 @@ function ChatRoomList({ onCreateRoom }) {
 
   return (
     <div className="h-full flex flex-col">
-      {/* Header */}
-      <div className="px-4 py-3 flex items-center justify-between border-b border-gray-100">
+      <div className="px-4 py-3 flex items-center justify-between border-b border-primary-100 bg-white">
         <h3 className="text-sm font-semibold text-gray-700">Rooms</h3>
         <div className="flex items-center space-x-1">
-          {/* Create Room Button */}
           <button
             onClick={onCreateRoom}
             className="p-1.5 text-primary-600 hover:bg-primary-50 rounded transition-colors"
@@ -26,7 +24,6 @@ function ChatRoomList({ onCreateRoom }) {
             </svg>
           </button>
           
-          {/* Browse Public Rooms Button */}
           <button
             onClick={() => setShowBrowseRooms(true)}
             className="p-1.5 text-gray-500 hover:text-primary-600 hover:bg-primary-50 rounded transition-colors"
@@ -68,8 +65,8 @@ function ChatRoomList({ onCreateRoom }) {
               <li key={room.id}>
                 <button
                   onClick={() => selectRoom(room)}
-                  className={`w-full px-4 py-3 flex items-center space-x-3 hover:bg-gray-50 transition-colors ${
-                    currentRoom?.id === room.id ? 'bg-primary-50' : ''
+                  className={`w-full px-4 py-3 flex items-center space-x-3 hover:bg-primary-100 transition-colors ${
+                    currentRoom?.id === room.id ? 'bg-primary-100' : ''
                   }`}
                 >
                   {room.profilePicture ? (

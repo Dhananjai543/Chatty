@@ -108,9 +108,18 @@ function AuthPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-500 to-primary-700 py-8 px-4">
+    <div className="min-h-screen flex items-center justify-center py-8 px-4 relative overflow-hidden">
       <div
-        className={`auth-container ${isRightPanelActive ? 'right-panel-active' : ''}`}
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: 'url(/landing_background.jpeg)',
+          backgroundSize: 'cover',
+        }}
+      />
+      <div className="absolute inset-0 bg-gradient-to-br from-primary-600/40 via-primary-500/30 to-primary-400/25" />
+      
+      <div
+        className={`auth-container relative z-10 ${isRightPanelActive ? 'right-panel-active' : ''}`}
       >
         {/* Sign Up Form */}
         <div className="form-container sign-up-container">

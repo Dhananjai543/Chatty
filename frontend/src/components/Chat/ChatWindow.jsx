@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState } from 'react'
 import { useChat } from '../../hooks/useChat'
+import { resolveAvatarUrl } from '../../services/api'
 import MessageList from './MessageList'
 import MessageInput from './MessageInput'
 
@@ -38,15 +39,28 @@ function ChatWindow() {
 
   return (
     <div className="flex-1 flex flex-col bg-white min-h-0">
-      {/* Chat Header */}
       <div className="px-6 py-4 border-b border-gray-200 bg-white">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium ${
-              currentRoom ? 'bg-primary-500' : 'bg-green-500'
-            }`}>
-              {currentRoom ? '#' : chatName?.charAt(0).toUpperCase()}
-            </div>
+            {currentRoom?.profilePicture ? (
+              <img
+                src={resolveAvatarUrl(currentRoom.profilePicture)}
+                alt={currentRoom.name}
+                className="w-10 h-10 rounded-full object-cover"
+              />
+            ) : currentPrivateChat?.profilePicture ? (
+              <img
+                src={resolveAvatarUrl(currentPrivateChat.profilePicture)}
+                alt={currentPrivateChat.displayName || currentPrivateChat.username}
+                className="w-10 h-10 rounded-full object-cover"
+              />
+            ) : (
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium ${
+                currentRoom ? 'bg-primary-500' : 'bg-green-500'
+              }`}>
+                {currentRoom ? '#' : chatName?.charAt(0).toUpperCase()}
+              </div>
+            )}
             <div>
               <div className="flex items-center space-x-2">
                 <h2 className="font-semibold text-gray-900">{chatName}</h2>
@@ -63,7 +77,6 @@ function ChatWindow() {
           </div>
           
           <div className="flex items-center space-x-4">
-            {/* Secret Code Display for Private Rooms */}
             {currentRoom && !currentRoom.isPublic && currentRoom.secretCode && (
               <div className="relative">
                 <button
@@ -114,7 +127,6 @@ function ChatWindow() {
         </div>
       </div>
 
-      {/* Messages Area */}
       <div ref={messagesContainerRef} className="flex-1 overflow-y-auto px-6 py-4 bg-gray-50 min-h-0">
         {loading ? (
           <div className="flex items-center justify-center h-full">
@@ -125,7 +137,6 @@ function ChatWindow() {
         )}
       </div>
 
-      {/* Message Input */}
       <MessageInput />
     </div>
   )

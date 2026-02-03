@@ -136,13 +136,13 @@ body {
 
 .auth-input:focus {
   background-color: #fff;
-  box-shadow: 0 0 0 2px #4f46e5;
+  box-shadow: 0 0 0 2px #ef4444;
 }
 
 .auth-button {
   border-radius: 20px;
-  border: 1px solid #4f46e5;
-  background-color: #4f46e5;
+  border: 1px solid #ef4444;
+  background-color: #ef4444;
   color: #ffffff;
   font-size: 12px;
   font-weight: bold;
@@ -155,7 +155,7 @@ body {
 }
 
 .auth-button:hover {
-  background-color: #4338ca;
+  background-color: #dc2626;
 }
 
 .auth-button:active {
@@ -183,7 +183,7 @@ body {
 }
 
 .overlay {
-  background: linear-gradient(to right, #4f46e5, #6366f1);
+  background: linear-gradient(to right, #b91c1c, #dc2626, #ef4444);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 0 0;
@@ -254,7 +254,6 @@ body {
   transform: scale(0.95);
 }
 
-/* Mobile responsive - stack forms vertically */
 @media (max-width: 768px) {
   .auth-container {
     min-height: auto;

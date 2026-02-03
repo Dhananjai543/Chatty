@@ -27,7 +27,7 @@ function UserList() {
   return (
     <div className="h-full flex flex-col">
       {/* Search */}
-      <div className="px-4 py-3 border-b border-gray-100">
+      <div className="px-4 py-3 border-b border-primary-100 bg-white">
         <div className="relative">
           <input
             type="text"
@@ -64,8 +64,8 @@ function UserList() {
                 <li key={user.id}>
                   <button
                     onClick={() => selectPrivateChat(user)}
-                    className={`w-full px-4 py-3 flex items-center space-x-3 hover:bg-gray-50 transition-colors ${
-                      isSelected ? 'bg-primary-50' : ''
+                    className={`w-full px-4 py-3 flex items-center space-x-3 hover:bg-primary-100 transition-colors ${
+                      isSelected ? 'bg-primary-100' : ''
                     }`}
                   >
                     {/* Avatar with online indicator */}
@@ -115,7 +115,7 @@ function UserList() {
       </div>
 
       {/* Online count */}
-      <div className="px-4 py-2 border-t border-gray-100 bg-gray-50">
+      <div className="px-4 py-2 border-t border-primary-100 bg-primary-50">
         <p className="text-xs text-gray-500">
           {onlineUsers.length} user{onlineUsers.length !== 1 ? 's' : ''} online
         </p>
